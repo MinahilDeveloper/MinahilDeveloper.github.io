@@ -1,24 +1,348 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minahil Nasir - CS Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-{% include career-profile.html %}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f9f9f9;
+        }
 
-{% unless site.data.data.sidebar.education %}
-  {% include education.html %}
-{% endunless %}
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-{% include experiences.html %}
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            animation: fadeIn 1.5s ease-in-out;
+        }
 
-{% include certifications.html %}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-{% include projects.html %}
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
 
-{% include oss-contributions.html %}
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
 
-{% include publications.html %}
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
 
-{% include recommendations.html %}
+        .profile-pic:hover {
+            transform: scale(1.05);
+        }
 
-{% include skills.html %}
+        section {
+            padding: 3rem 0;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto;
+        }
+
+        .career-profile, .experience, .projects, .skills, .certifications {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .experience-item, .project-item, .certification-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .experience-item:last-child, .project-item:last-child, .certification-item:last-child {
+            border-bottom: none;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .job-period {
+            color: var(--accent-color);
+            font-style: italic;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-item {
+            background: var(--light-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--light-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .social-links {
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-pic">
+        <h1>Minahil Nasir</h1>
+        <p>Computer Science Student | Aspiring Software Engineer</p>
+    </header>
+
+    <div class="container">
+        <section class="career-profile">
+            <h2>Career Profile</h2>
+            <p>
+                Summarize your career here. I am a passionate computer science student with a strong foundation in programming and problem-solving.
+                I enjoy building innovative projects and contributing to open-source communities.
+                My goal is to leverage my skills to create impactful software solutions.
+            </p>
+            <p>
+                Second paragraph if required. I am constantly learning and improving my skills in web development, algorithms,
+                and software engineering principles.
+            </p>
+        </section>
+
+        <section class="experience">
+            <h2>Experiences</h2>
+            <div class="experience-item">
+                <h3 class="job-title">Lead Developer</h3>
+                <p class="job-period">2023 - Present</p>
+                <p><strong>Startup Hubs, Lahore</strong></p>
+                <p>
+                    Describe your role here. Led a team of developers to build and deploy web applications.
+                    Collaborated with designers and product managers to deliver high-quality software solutions.
+                </p>
+                <ul>
+                    <li>Bullet point: Developed and maintained web applications using modern frameworks.</li>
+                    <li>Bullet point: Improved application performance and user experience.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3 class="job-title">Software Engineer Intern</h3>
+                <p class="job-period">2022 - 2023</p>
+                <p><strong>Tech Solutions, Islamabad</strong></p>
+                <p>
+                    Describe your role here. Assisted in the development and testing of software applications.
+                    Worked closely with senior developers to learn best practices and improve coding skills.
+                </p>
+                <ul>
+                    <li>Bullet point: Contributed to the development of internal tools and utilities.</li>
+                    <li>Bullet point: Participated in code reviews and team meetings.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="projects">
+            <h2>Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/600x400" alt="Project 1" class="project-img">
+                    <div class="project-content">
+                        <h3>Project 1: To-Do List App</h3>
+                        <p>A web application to manage daily tasks and improve productivity.</p>
+                        <p><strong>Technologies:</strong> HTML, CSS, JavaScript, React</p>
+                        <a href="[Link to GitHub repository]" target="_blank">View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/600x400" alt="Project 2" class="project-img">
+                    <div class="project-content">
+                        <h3>Project 2: Weather App</h3>
+                        <p>A web app that provides real-time weather updates for any location.</p>
+                        <p><strong>Technologies:</strong> HTML, CSS, JavaScript, API Integration</p>
+                        <a href="[Link to GitHub repository]" target="_blank">View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/600x400" alt="Project 3" class="project-img">
+                    <div class="project-content">
+                        <h3>Project 3: Personal Portfolio</h3>
+                        <p>A responsive portfolio website to showcase my projects and skills.</p>
+                        <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                        <a href="[Link to GitHub repository]" target="_blank">View Code</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills">
+            <h2>Skills & Proficiency</h2>
+            <div class="skills-list">
+                <div class="skill-item">Python & Django</div>
+                <div class="skill-item">JavaScript & jQuery</div>
+                <div class="skill-item">Angular</div>
+                <div class="skill-item">HTML5 & CSS</div>
+                <div class="skill-item">Ruby on Rails</div>
+                <div class="skill-item">Sketch & Photoshop</div>
+                <div class="skill-item">Git & GitHub</div>
+                <div class="skill-item">SQL</div>
+                <div class="skill-item">Java</div>
+                <div class="skill-item">C++</div>
+            </div>
+        </section>
+
+        <section class="certifications">
+            <h2>Certifications</h2>
+            <div class="certification-item">
+                <h3>CV Builder</h3>
+                <p class="job-period">2023 - 2024</p>
+                <p><strong>Microsoft (111-222)</strong></p>
+                <p>Details about certification. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+
+            <div class="certification-item">
+                <h3>Git Learning</h3>
+                <p class="job-period">2022</p>
+                <p><strong>GitHub</strong></p>
+                <p>Details about certification. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="mailto:your.email@example.com" target="_blank"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>&copy; 2026 Minahil Nasir. All rights reserved.</p>
+    </footer>
+</body>
+</html>
